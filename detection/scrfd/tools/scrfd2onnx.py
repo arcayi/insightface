@@ -7,8 +7,7 @@ import os
 #import onnxruntime as rt
 import torch
 
-from mmdet.core import (build_model_from_cfg, generate_inputs_and_wrap_model,
-                        preprocess_example_input)
+from mmdet.core import generate_inputs_and_wrap_model
 
 #from mmdet.models import build
 
@@ -91,7 +90,8 @@ def pytorch2onnx(config_path,
             #print(model.graph.input[0])
             if dynamic:
                 input_shapes = {model.graph.input[0].name : list(input_shape)}
-                model, check = simplify(model, input_shapes=input_shapes, dynamic_input_shape=True)
+                # model, check = simplify(model, input_shapes=input_shapes, dynamic_input_shape=True)
+                model, check = simplify(model)
             else:
                 model, check = simplify(model)
             assert check, "Simplified ONNX model could not be validated"
